@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 const Register = () => {
+  const [name, setName] = "";
+  const [email, setEmail] = "";
+  const [password, setPassword] = "";
+  const [secret, setSecret] = "";
+
   return (
     <div className="container-fluid">
       <div className="row py-5 bg-secondary text-light">
@@ -12,9 +19,11 @@ const Register = () => {
           <form>
             <div className="form-group p-2">
               <small>
-                <label className="text-muted"> Your name</label>
+                <label className="text-muted"> Your Name</label>
               </small>
               <input
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Enter name"
@@ -26,6 +35,8 @@ const Register = () => {
                 <label className="text-muted"> Your Email address</label>
               </small>
               <input
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Enter name"
@@ -37,6 +48,8 @@ const Register = () => {
                 <label className="text-muted"> Password</label>
               </small>
               <input
+              value={password}
+              onChange={(event)=>setPassword(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Enter name"
@@ -58,6 +71,8 @@ const Register = () => {
 
             <div className="form-group  p-2">
               <input
+              value={secret}
+              onChange={(event)=>setSecret(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Write  your answer"
