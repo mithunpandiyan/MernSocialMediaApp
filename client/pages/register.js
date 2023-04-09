@@ -1,10 +1,25 @@
 import { useState } from "react";
+import axios from "axios";
 
 const Register = () => {
-  const [name, setName] = "";
-  const [email, setEmail] = "";
-  const [password, setPassword] = "";
-  const [secret, setSecret] = "";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [secret, setSecret] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    //console.log(name,email,password,secret)
+    axios
+      .post("http://localhost:8080/api/register", {
+        name: name,
+        email: email,
+        password: password,
+        secret: secret,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="container-fluid">
@@ -16,7 +31,7 @@ const Register = () => {
 
       <div className="row py-5">
         <div className="col-md-6 offset-md-3">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group p-2">
               <small>
                 <label className="text-muted"> Your Name</label>
@@ -48,8 +63,8 @@ const Register = () => {
                 <label className="text-muted"> Password</label>
               </small>
               <input
-              value={password}
-              onChange={(event)=>setPassword(event.target.value)}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Enter name"
@@ -71,8 +86,8 @@ const Register = () => {
 
             <div className="form-group  p-2">
               <input
-              value={secret}
-              onChange={(event)=>setSecret(event.target.value)}
+                value={secret}
+                onChange={(event) => setSecret(event.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Write  your answer"

@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const {readdirSync} = require('fs')
+const {readdirSync} = require ("fs")
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 require("dotenv").config();
