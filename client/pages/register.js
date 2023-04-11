@@ -1,29 +1,49 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import Modal from "react-bootstrap/Modal";
+import Link from "next/link";
+import AuthForm from "../components/forms/AuthForm";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secret, setSecret] = useState("");
+  const [ok, setOk] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //console.log(name,email,password,secret)
-    axios
-      .post("http://localhost:8080/api/register", {
-        name: name,
-        email: email,
-        password: password,
-        secret: secret,
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+    console.log(name, email, password, secret);
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/register`,
+        {
+          name: name,
+          email: email,
+          password: password,
+          secret: secret,
+        }
+      );
+      setEmail("");
+      setPassword("");
+      setSecret("");
+      setName("");
+      setOk(data.ok); // Toaster Success
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response.data);
+      setLoading(false);
+    }
   };
+
+ 
 
   return (
     <div className="container-fluid">
-      <div className="row py-5 bg-secondary text-light">
+      <div className="row py-5 bg-default-Image text-light">
         <div className="col text-center">
           <h1>Register</h1>
         </div>
@@ -31,72 +51,46 @@ const Register = () => {
 
       <div className="row py-5">
         <div className="col-md-6 offset-md-3">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group p-2">
-              <small>
-                <label className="text-muted"> Your Name</label>
-              </small>
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                type="text"
-                className="form-control"
-                placeholder="Enter name"
-              />
+          <AuthForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            secret={secret}
+            setSecret={setSecret}
+            loading={loading}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <Modal
+            title={"Congratulations..."}
+            size="sm"
+            show={ok}
+            onHide={() => setOk(false)}
+          >
+          <Modal.Header closeButton></Modal.Header>
+            <p className="text-center">You have successfully registered!</p>
+            <div className="text-center">
+            <Link href="/login">
+              <div className="btn btn-primary btn-sm">Login</div>
+            </Link>
             </div>
-
-            <div className="form-group  p-2">
-              <small>
-                <label className="text-muted"> Your Email address</label>
-              </small>
-              <input
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                type="text"
-                className="form-control"
-                placeholder="Enter name"
-              />
-            </div>
-
-            <div className="form-group  p-2">
-              <small>
-                <label className="text-muted"> Password</label>
-              </small>
-              <input
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                type="text"
-                className="form-control"
-                placeholder="Enter name"
-              />
-            </div>
-            <div className="form-group  p-2">
-              <small>
-                <label className="text-muted"> Pick a question</label>
-              </small>
-              <select className="form-control">
-                <option> What is your favorite color ?</option>
-                <option> What is your birth place name ?</option>
-                <option> What is your first pet name ?</option>
-              </select>
-              <small className="form-text text-muted">
-                You can use this to reset your password if forgotten!
-              </small>
-            </div>
-
-            <div className="form-group  p-2">
-              <input
-                value={secret}
-                onChange={(event) => setSecret(event.target.value)}
-                type="text"
-                className="form-control"
-                placeholder="Write  your answer"
-              />
-            </div>
-            <div className="py-1 p-2">
-              <button className="btn btn-primary col-12">Submit</button>
-            </div>
-          </form>
+          </Modal>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <p className="text-center">
+            Already registered?{" "}
+            <Link href="/login">
+              <div>Login</div>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

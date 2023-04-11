@@ -28,7 +28,7 @@ mongoose
  //Autoload Routes
  readdirSync('./routes').map((r)=>app.use('/api' ,require(`./routes/${r}`)))
 
-
+ 
 
   const port = process.env.PORT || 8080
 
