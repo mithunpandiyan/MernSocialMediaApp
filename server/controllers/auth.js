@@ -38,23 +38,23 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  //console.log(req.body);
+  console.log(req.body);
   try {
     const { email, password } = req.body;
 
     //check if our  db  has a user with that email
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).send({ message: "No user found" });
- 
+    console.log("user", user);
     //check if the password is correct
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch) return res.status(400).send({ message: "Wrong password" });
-
+    const match = await comparePassword(password, user.password);
+    if (!match) return res.status(400).send({ message: "Wrong password" });
+    console.log("match", match);
     //Create signed token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
     });
-    console.log("token",token);
+    console.log("token", token);
     user.password = undefined;
     user.secret = undefined;
     res.json({
