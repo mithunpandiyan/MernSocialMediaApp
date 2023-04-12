@@ -45,16 +45,16 @@ const login = async (req, res) => {
     //check if our  db  has a user with that email
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(400).send({ message: "No user found" });
-    console.log("user", user);
+    console.log("user details", user);
     //check if the password is correct
     const match = await comparePassword(password, user.password);
     if (!match) return res.status(400).send({ message: "Wrong password" });
-    console.log("match", match);
+    console.log("matching password", match);
     //Create signed token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    console.log("token", token);
+    console.log("token generated", token);
     user.password = undefined;
     user.secret = undefined;
     res.json({

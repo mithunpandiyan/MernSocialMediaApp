@@ -39,8 +39,6 @@ const Register = () => {
     }
   };
 
- 
-
   return (
     <div className="container-fluid">
       <div className="row py-5 bg-default-Image text-light">
@@ -73,12 +71,13 @@ const Register = () => {
             show={ok}
             onHide={() => setOk(false)}
           >
-          <Modal.Header closeButton></Modal.Header>
+            <Modal.Header closeButton></Modal.Header>
             <p className="text-center">You have successfully registered!</p>
             <div className="text-center">
-            <Link href="/login">
-              <div className="btn btn-primary btn-sm">Login</div>
-            </Link>
+              <Link href="/login">
+                Login
+                {/* <div className="btn btn-primary btn-sm">Login</div> */}
+              </Link>
             </div>
           </Modal>
         </div>
@@ -86,10 +85,8 @@ const Register = () => {
       <div className="row">
         <div className="col">
           <p className="text-center">
-            Already registered?{" "}
-            <Link href="/login">
-              <div>Login</div>
-            </Link>
+            Already registered?
+            <Link href="/login">Login</Link>
           </p>
         </div>
       </div>

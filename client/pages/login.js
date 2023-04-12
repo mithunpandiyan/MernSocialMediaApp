@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {useRouter} from "next/router"
+import { useRouter } from "next/router";
 import Link from "next/link";
 import AuthForm from "../components/forms/AuthForm";
+import { UserContext } from "../context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useContext(UserContext);
 
-const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log( email, password);
+    console.log(email, password);
     try {
       setLoading(true);
       const { data } = await axios.post(
@@ -24,8 +26,13 @@ const router = useRouter()
           password: password,
         }
       );
-      // router.push("/")
-      console.log("data",data);
+      setState({
+        user: data.user,
+        token: data.token,
+      });
+      //Save in LocalStorage
+      //   router.push("/")
+      window.localStorage.setItem("auth", JSON.stringify(data));
     } catch (error) {
       toast.error(error.response.data);
       setLoading(false);
@@ -53,14 +60,11 @@ const router = useRouter()
           />
         </div>
       </div>
-       
+
       <div className="row">
         <div className="col">
           <p className="text-center">
-           Not yet registered ? 
-            <Link href="/register">
-              <div>Register </div>
-            </Link>
+            Not yet registered ?<Link href="/register">Register</Link>
           </p>
         </div>
       </div>
