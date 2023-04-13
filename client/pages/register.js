@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
 import Link from "next/link";
 import AuthForm from "../components/forms/AuthForm";
+import {UserContext} from "../context"
+import { useRouter } from "next/router";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -12,6 +14,9 @@ const Register = () => {
   const [secret, setSecret] = useState("");
   const [ok, setOk] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [state,setState] = useContext(UserContext)
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,6 +42,8 @@ const Register = () => {
       toast.error(error.response.data);
       setLoading(false);
     }
+
+ if(state && state.token) router.push('/')
   };
 
   return (

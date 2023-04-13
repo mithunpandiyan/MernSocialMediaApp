@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -31,13 +31,20 @@ const Login = () => {
         token: data.token,
       });
       //Save in LocalStorage
-      //   router.push("/")
+        router.push("/")
       window.localStorage.setItem("auth", JSON.stringify(data));
     } catch (error) {
       toast.error(error.response.data);
       setLoading(false);
     }
   };
+
+  //Redirect
+  useEffect(() => {
+   
+  }, [ ]);
+
+  if(state &&state.token ) router.push("/") 
 
   return (
     <div className="container-fluid">

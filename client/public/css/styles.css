@@ -8,3 +8,11 @@
 .logo{
     text-shadow: 2px 2px #040000;
 }
+
+.cursor{
+cursor: pointer;
+}
+
+.active{
+  background-color:rgb(243, 108, 18)
+}
