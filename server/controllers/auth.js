@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
+ 
 
 const register = async (req, res) => {
   const { name, email, password, secret } = req.body;
@@ -67,4 +68,15 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+ const currentUser = async (req, res) => {
+ try {
+  const user = await User.findById(req.user._id);
+//  res.json(user);
+  res.json({ok:true})
+ } catch (error) {
+  console.log(error);
+  res.sendStatus(400)
+ }
+}
+
+module.exports = { register, login ,currentUser};
