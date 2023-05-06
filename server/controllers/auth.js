@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helpers/auth");
 const jwt = require("jsonwebtoken");
+
  
 
 const register = async (req, res) => {
@@ -79,4 +80,9 @@ const login = async (req, res) => {
  }
 }
 
-module.exports = { register, login ,currentUser};
+const forgotPassword = async (req, res) => {
+  console.log(req.body);
+
+}
+
+module.exports = { register, login ,currentUser,forgotPassword};
